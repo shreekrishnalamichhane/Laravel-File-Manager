@@ -1,0 +1,59 @@
+.cus-avatar-preview {
+    max-height: 90px;
+    min-height: 90px;
+    max-width: 90px;
+    min-width: 90px;
+    overflow: hidden;
+    object-fit: cover;
+    object-position: center;
+}
+
+.cus-navbar-avatar {
+    max-height: 26px;
+    min-height: 26px;
+    max-width: 26px;
+    min-width: 26px;
+    overflow: hidden;
+    object-fit: cover;
+    object-position: center;
+}
+
+
+@media (min-width: 1200px) {
+
+    .sidebar {
+        --offset: 2rem;
+        flex-grow: 1;
+        flex-basis: 300px;
+        align-self: start;
+        position: sticky;
+        top: 12em;
+    }
+
+    .component {
+        display: grid;
+        grid-template-rows: auto 1fr auto;
+    }
+
+    .component .content {
+        max-height: 500px;
+        overflow-y: auto;
+    }
+
+    .sidebar .component {
+        max-height: calc(100vh - var(--offset) * 2);
+    }
+}
+
+.floating-button {
+    position: fixed;
+    bottom: 1.25rem;
+    right: 80px;
+    z-index: 1000;
+}
+
+.filename {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
