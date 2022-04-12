@@ -12,7 +12,8 @@
                             <div class="mb-3">
                                 <label for="email" class="form-label">Email</label>
                                 <input id="email" type="email" class="form-control @error('email') is-invalid @enderror"
-                                    name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+                                    name="email" value="{{ old('email') }}" required autocomplete="email"
+                                    value="user1@gmail.com" autofocus>
                                 @error('email')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -22,12 +23,12 @@
                                 <div class="password-toggle">
                                     <input id="password" type="password"
                                         class="form-control @error('password') is-invalid @enderror" name="password"
-                                        required autocomplete="current-password">
+                                        required autocomplete="current-password" value="password">
                                     @error('password')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                     <label class="password-toggle-btn" aria-label="Show/hide password">
-                                        <input class="password-toggle-check" type="checkbox">
+                                        <input class="password-toggle-check" type="checkbox" checked>
                                         <span class="password-toggle-indicator"></span>
                                     </label>
                                 </div>
