@@ -1,3 +1,11 @@
 *
 !extensionImages
+!files
+!files/grid
+!files/large
+!files/original
+!files/thumb
+
+!usercontents
+!usercontents/avatars
 !.gitignore
