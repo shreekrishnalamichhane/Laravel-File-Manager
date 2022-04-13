@@ -1,7 +1,6 @@
 @extends('layouts.user')
 
 @section('scripts')
-
     <script>
         var clipboardLink = new ClipboardJS('[data-clipboard-text]');
         clipboardLink.on('success', function(e) {

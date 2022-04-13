@@ -16,7 +16,7 @@
                     <!-- Drag and drop file upload -->
                     <div class="file-drop-area">
                         <div class="file-drop-icon ci-cloud-upload"></div>
-                        <span class="file-drop-message">Drag and drop here to upload</span>
+                        <span class="file-drop-message filename">Drag and drop here to upload</span>
                         <input type="file" class="file-drop-input" name="file">
                         <button type="button" class="file-drop-btn btn btn-primary btn-sm">Or select file</button>
                     </div>
@@ -44,7 +44,7 @@
                         <img id="fileModalImage" src="" alt="">
                     </div>
                     <div class="col-lg-6 col-md-6 col-sm-12">
-                        <h5 class="modal-title" id="fileModalTitle"></h5>
+                        <h5 class="modal-title filename" id="fileModalTitle"></h5>
                         <hr>
                         <dl class="row pt-3">
                             <dt class="col-6">File Size :</dt>
