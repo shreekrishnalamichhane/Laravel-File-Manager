@@ -1,9 +1,10 @@
 <?php
+use Illuminate\Support\Str;
 
 if (!function_exists('sendSimpleMail')) {
     function sendSimpleMail($to, $subject, $content)
     {
-        $from_name    = env('MAIL_FROM_NAME', 'Test');
+        $from_name = env('MAIL_FROM_NAME', 'Test');
         $from_address = env('MAIL_FROM_ADDRESS', 'test@gmail.com');
         Mail::send('emails.simpleEmail', ['content' => $content], function ($message) use ($to, $from_name, $from_address, $subject, $content) {
             $message->from($from_address, $from_name);
@@ -42,7 +43,7 @@ if (!function_exists('render_breadcrumb')) {
 if (!function_exists('formatBytes')) {
     function formatBytes($size, $precision = 2)
     {
-        $base     = log($size, 1024);
+        $base = log($size, 1024);
         $suffixes = array('', 'KB', 'MB', 'GB', 'TB');
 
         return round(pow(1024, $base - floor($base)), $precision) . ' ' . $suffixes[floor($base)];
@@ -62,45 +63,45 @@ if (!function_exists('getFileTypeFromExtension')) {
     function getFileTypeFromExtension($ext)
     {
         $extensions = [
-            'jpg'   => 'image',
-            'jpeg'  => 'image',
-            'gif'   => 'image',
-            'png'   => 'image',
-            'm4a'   => 'audio',
-            'flac'  => 'audio',
-            'mp3'   => 'audio',
-            'wav'   => 'audio',
-            'wma'   => 'audio',
-            'aac'   => 'audio',
-            'mp4'   => 'video',
-            'mov'   => 'video',
-            'wmv'   => 'video',
-            'avi'   => 'video',
+            'jpg' => 'image',
+            'jpeg' => 'image',
+            'gif' => 'image',
+            'png' => 'image',
+            'm4a' => 'audio',
+            'flac' => 'audio',
+            'mp3' => 'audio',
+            'wav' => 'audio',
+            'wma' => 'audio',
+            'aac' => 'audio',
+            'mp4' => 'video',
+            'mov' => 'video',
+            'wmv' => 'video',
+            'avi' => 'video',
             'avchd' => 'video',
-            'flv'   => 'video',
-            'f4v'   => 'video',
-            'swf'   => 'video',
-            'mkv'   => 'video',
-            'webm'  => 'video',
-            'mpeg'  => 'video',
-            'pdf'   => 'files',
-            'xlsx'  => 'files',
-            'doc'   => 'files',
-            'docx'  => 'files',
-            'pptx'  => 'files',
-            'exe'   => 'files',
-            'txt'   => 'files',
-            'zip'   => 'files',
-            'rar'   => 'files',
-            'eps'   => 'files',
-            'raw'   => 'files',
-            'psd'   => 'files',
-            'ai'    => 'files',
-            'indd'  => 'files',
-            'ico'   => 'files',
-            'tiff'  => 'files',
-            'tif'   => 'files',
-            'bmp'   => 'files',
+            'flv' => 'video',
+            'f4v' => 'video',
+            'swf' => 'video',
+            'mkv' => 'video',
+            'webm' => 'video',
+            'mpeg' => 'video',
+            'pdf' => 'files',
+            'xlsx' => 'files',
+            'doc' => 'files',
+            'docx' => 'files',
+            'pptx' => 'files',
+            'exe' => 'files',
+            'txt' => 'files',
+            'zip' => 'files',
+            'rar' => 'files',
+            'eps' => 'files',
+            'raw' => 'files',
+            'psd' => 'files',
+            'ai' => 'files',
+            'indd' => 'files',
+            'ico' => 'files',
+            'tiff' => 'files',
+            'tif' => 'files',
+            'bmp' => 'files',
         ];
 
         if (array_key_exists($ext, $extensions)) {
@@ -115,5 +116,19 @@ if (!function_exists('getOrientationOfImage')) {
     function getOrientationOfImage($length, $breadth)
     {
         return $length . 'x' . $breadth . ' px';
+    }
+}
+
+if (!function_exists('getRandomSlug')) {
+    function getRandomSlug($len = 16)
+    {
+        return Str::random($len);
+    }
+}
+
+if (!function_exists(('get_public_path'))) {
+    function get_public_path()
+    {
+        return env('APP_URL');
     }
 }

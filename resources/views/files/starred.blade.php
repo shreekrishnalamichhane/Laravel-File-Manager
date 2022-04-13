@@ -1,7 +1,6 @@
 @extends('layouts.user')
 
 @section('scripts')
-
     <script>
         var clipboardLink = new ClipboardJS('[data-clipboard-text]');
         clipboardLink.on('success', function(e) {
@@ -52,7 +51,6 @@
                 });
         }
     </script>
-
 @endsection
 
 @section('contents')
@@ -70,8 +68,9 @@
                 <div class="col-sm-3">
                     <div class="card text-primary shadow-lg">
                         <div class="card-body">
-                            <h5 class="card-title text-primary">{{ formatBytes($data['totalSize']) }}</h5>
-                            <p class="card-text fs-sm ">Total Storage Used</p>
+                            <h5 class="card-title text-primary">
+                                {{ $data['totalSize'] ? formatBytes($data['totalSize']) : 0 }}</h5>
+                            <p class="card-text fs-sm ">Folder Size</p>
                         </div>
                     </div>
                 </div>
@@ -148,10 +147,10 @@
             </div>
         </div>
     </div>
-    <div class="floating-button">
+    {{-- <div class="floating-button">
         <button class="btn btn-primary rounded-pill btn-icon shadow-lg btn-xl" type="button" data-bs-toggle="modal"
-            data-bs-target="#file-upload">
+            data-bs-target="#fileOrFolder">
             <i class="ci-add"></i>
         </button>
-    </div>
+    </div> --}}
 @endsection

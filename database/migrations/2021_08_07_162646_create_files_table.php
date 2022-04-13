@@ -24,7 +24,8 @@ class CreateFilesTable extends Migration
             $table->integer('width')->nullable();
             $table->integer('height')->nullable();
             $table->string('dimension')->nullable();
-            $table->foreignId('userId');
+            $table->string('parentFolder')->nullable(false)->default('my-drive');
+            $table->foreignId('userId')->nullable(false);
             $table->boolean('starred')->default(false);
             $table->timestamps();
         });

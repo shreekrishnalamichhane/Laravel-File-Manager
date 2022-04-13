@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\File;
-use Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Image;
 
@@ -17,15 +17,15 @@ class FileController extends Controller
      */
     public function index()
     {
-        $user      = Auth::user();
-        $files     = File::where('userId', '=', Auth::user()->id)->get();
+        $user = Auth::user();
+        $files = File::where('userId', '=', Auth::user()->id)->get();
         $totalSize = null;
         foreach ($files as $file) {
             $totalSize += $file->sizeInBytes;
         }
         $data = array(
-            'user'      => $user,
-            'files'     => $files,
+            'user' => $user,
+            'files' => $files,
             'totalSize' => $totalSize,
         );
         return view('files/index')->with('data', $data);
@@ -40,7 +40,8 @@ class FileController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'file' => 'required',
+            'file' => ['required'],
+            'parentFolder' => ['required'],
         ]);
 
         // Handle File Upload
@@ -48,7 +49,7 @@ class FileController extends Controller
 
             $file = $request->file('file');
 
-            $fileSize        = $file->getSize();
+            $fileSize = $file->getSize();
             $filenameWithExt = $file->getClientOriginalName();
 
             $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
@@ -81,40 +82,25 @@ class FileController extends Controller
             return redirect()->back()->with('danger', 'No Media Selected.');
         }
 
-        $newFile                = new File();
-        $newFile->name          = $filenameWithExt;
-        $newFile->slugname      = $fileNameToStore;
-        $newFile->sizeInBytes   = $fileSize;
+        $newFile = new File();
+        $newFile->name = $filenameWithExt;
+        $newFile->slugname = $fileNameToStore;
+        $newFile->sizeInBytes = $fileSize;
         $newFile->sizeFormatted = formatBytes($fileSize);
-        $newFile->extension     = $extension;
-        $newFile->type          = getFileTypeFromExtension($extension);
+        $newFile->extension = $extension;
+        $newFile->type = getFileTypeFromExtension($extension);
         if ($newFile->type == 'image') {
-            $imageSize          = getimagesize($file);
-            $newFile->width     = $imageSize[0];
-            $newFile->height    = $imageSize[1];
+            $imageSize = getimagesize($file);
+            $newFile->width = $imageSize[0];
+            $newFile->height = $imageSize[1];
             $newFile->dimension = getOrientationOfImage($imageSize[0], $imageSize[1]);
         }
+        $newFile->parentFolder = $request->get('parentFolder');
         $newFile->userId = Auth::user()->id;
 
         $newFile->save();
 
-        return redirect('/files')->with('success', 'File Uploaded Successfully.');
-    }
-
-    public function starred()
-    {
-        $user      = Auth::user();
-        $files     = File::where('userId', '=', Auth::user()->id)->where('starred', '=', true)->get();
-        $totalSize = null;
-        foreach ($files as $file) {
-            $totalSize += $file->sizeInBytes;
-        }
-        $data = array(
-            'user'      => $user,
-            'files'     => $files,
-            'totalSize' => $totalSize,
-        );
-        return view('files/starred')->with('data', $data);
+        return redirect()->back()->with('success', 'File Uploaded Successfully.');
     }
 
     public function toggleFileStarred(Request $request)
@@ -134,24 +120,23 @@ class FileController extends Controller
                 return response()->json([
                     'success' => 1,
                     'message' => $message,
-                    'data'    => [
+                    'data' => [
                         'selector' => explode('.', $file->slugName)[0],
-                        'status'   => $file->starred,
+                        'status' => $file->starred,
                     ],
                 ]);
-
             } else { //if current auth user is not owner of requested file.
                 return response()->json([
                     'success' => 0,
                     'message' => 'Unauthorized Action !',
-                    'data'    => null,
+                    'data' => null,
                 ]);
             }
         } else { //if file is not found
             return response()->json([
                 'success' => 0,
                 'message' => 'File Not Found !',
-                'data'    => null,
+                'data' => null,
             ]);
         }
     }
@@ -225,7 +210,7 @@ class FileController extends Controller
                 return response()->json([ //return success response
                     'success' => 1,
                     'message' => 'File deleted Successfully',
-                    'data'    => [
+                    'data' => [
                         'selector' => explode('.', $file->slugName)[0],
                     ],
                 ]);
@@ -233,14 +218,14 @@ class FileController extends Controller
                 return response()->json([
                     'success' => 0,
                     'message' => 'UnAuthorized Action.',
-                    'data'    => null,
+                    'data' => null,
                 ]);
             }
         } else { //file not found
             return response()->json([
                 'success' => 0,
                 'message' => 'File Not Found !',
-                'data'    => null,
+                'data' => null,
             ]);
         }
     }

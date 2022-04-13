@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,9 +17,9 @@ use Illuminate\Support\Facades\Route;
 Route::redirect('/', '/login', 301);
 
 Auth::routes([
-    'verify'   => true,
+    'verify' => true,
     'register' => false,
-    'reset'    => false,
+    'reset' => false,
 ]);
 
 Route::middleware(['auth', 'verified', '2fa'])->prefix('/profile')->group(function () {
@@ -28,7 +29,6 @@ Route::middleware(['auth', 'verified', '2fa'])->prefix('/profile')->group(functi
     Route::post('/updateProfileUsername', [App\Http\Controllers\UserController::class, 'updateProfileUsername'])->name('user.updateProfileUsername')->middleware(['password.confirm']);
     Route::post('/updateProfilePhone', [App\Http\Controllers\UserController::class, 'updateProfilePhone'])->name('user.updateProfilePhone')->middleware(['password.confirm']);
     Route::post('/changeUserPassword', [App\Http\Controllers\UserController::class, 'changePassword'])->name('user.changeUserPassword')->middleware(['password.confirm']);
-
 });
 Route::group(['prefix' => '2fa'], function () {
     Route::post('/generateSecret', [App\Http\Controllers\TwoFactorAuthController::class, 'generate2faSecret'])->name('generate2faSecret');
@@ -39,11 +39,18 @@ Route::group(['prefix' => '2fa'], function () {
     Route::post('/2faVerify', function () {
         return redirect()->back()->with('success', 'Login Successful.');
     })->name('2faVerify')->middleware('2fa');
-
 });
 
 Route::middleware(['auth', 'verified', '2fa'])->prefix('/')->group(function () {
-    Route::get('/files', [App\Http\Controllers\FileController::class, 'index'])->name('files.index');
-    Route::get('/starred', [App\Http\Controllers\FileController::class, 'starred'])->name('files.starred');
+    // Route::get('/files', [App\Http\Controllers\FileController::class, 'index'])->name('files.index');
+    // Route::get('/starred', [App\Http\Controllers\FileController::class, 'starred'])->name('files.starred');
     Route::post('/files/upload', [App\Http\Controllers\FileController::class, 'store'])->name('files.upload');
+});
+
+Route::middleware(['auth', 'verified', '2fa'])->prefix('/')->group(function () {
+    Route::get('/my-drive', [App\Http\Controllers\FolderController::class, 'my_drive'])->name('myDrive.index');
+    Route::get('/starred', [App\Http\Controllers\FolderController::class, 'starred'])->name('folders.starred');
+    Route::get('/folders/{slug}', [App\Http\Controllers\FolderController::class, 'index'])->name('folders.index');
+    Route::post('/folder/store', [App\Http\Controllers\FolderController::class, 'store'])->name('folders.store');
+    Route::post('/files/delete/{slug}', [App\Http\Controllers\FolderController::class, 'delete'])->name('folders.delete');
 });

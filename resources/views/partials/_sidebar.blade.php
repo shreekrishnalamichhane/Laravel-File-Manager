@@ -23,12 +23,12 @@
              </div>
              <ul class="list-unstyled mb-0">
                  <li class="border-bottom mb-0"><a
-                         class="nav-link-style d-flex align-items-center px-4 py-3 {{ activeMenuItem('files') }}"
-                         href="{{ route('files.index') }}"><i class="ci-folder opacity-60 me-2"></i>My Files</a>
+                         class="nav-link-style d-flex align-items-center px-4 py-3 {{ activeMenuItem('my-drive') }}"
+                         href="{{ route('myDrive.index') }}"><i class="ci-folder opacity-60 me-2"></i>My Drive</a>
                  </li>
                  <li class="border-bottom mb-0"><a
                          class="nav-link-style d-flex align-items-center px-4 py-3 {{ activeMenuItem('starred') }}"
-                         href="{{ route('files.starred') }}"><i class="ci-star opacity-60 me-2"></i>Starred</a></li>
+                         href="{{ route('folders.starred') }}"><i class="ci-star opacity-60 me-2"></i>Starred</a></li>
              </ul>
              <div class="bg-secondary px-4 py-3">
                  <h3 class="fs-sm mb-0 text-muted">Account settings</h3>

@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\TwoFactorAuth;
-use Auth;
-use Hash;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
+use App\Models\User;
 
 class TwoFactorAuthController extends Controller
 {

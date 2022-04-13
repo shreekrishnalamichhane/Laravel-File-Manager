@@ -6,6 +6,9 @@
 !files/original
 !files/thumb
 
+!sitecontents
+!sitecontents/**
+
 !usercontents
 !usercontents/avatars
 !.gitignore

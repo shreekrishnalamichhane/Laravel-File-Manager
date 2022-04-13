@@ -77,8 +77,8 @@
                 out</a>
         </div> --}}
     <div class="d-lg-flex justify-content-between align-items-center pt-lg-3 pb-4 pb-lg-5 mb-lg-3">
-        <div class="w-100 text-light text-center me-3">
-            <div class="row d-none d-lg-flex">
+        <div class="w-100 text-light  me-3">
+            <div class="row d-none text-center d-lg-flex">
                 <div class="col-sm-3 ">
                     <div class="card text-primary shadow-lg">
                         <div class="card-body">
@@ -90,8 +90,9 @@
                 <div class="col-sm-3">
                     <div class="card text-primary shadow-lg">
                         <div class="card-body">
-                            <h5 class="card-title text-primary">{{ formatBytes($data['totalSize']) }}</h5>
-                            <p class="card-text fs-sm ">Total Storage Used</p>
+                            <h5 class="card-title text-primary">
+                                {{ $data['totalSize'] ? formatBytes($data['totalSize']) : 0 }}</h5>
+                            <p class="card-text fs-sm ">Folder Size</p>
                         </div>
                     </div>
                 </div>
@@ -113,10 +114,25 @@
                 </div>
             </div>
             <div class="row mt-5">
-
+                @if (count($data['folders']) > 0)
+                    <h4 class="">Folders</h4>
+                    @foreach ($data['folders'] as $folder)
+                        <div class="col-lg-3 col-md-4 col-sm-6  mb-3">
+                            <div class="card border shadow">
+                                <div class="card-body">
+                                    <a href="{{ get_public_path() }}/folders/{{ $folder->slugName }}">
+                                        <p class="text-body filename mb-0"> <i
+                                                class="ci-folder opacity-60 me-2"></i>{{ $folder->name }}</p>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                @endif
                 @if (count($data['files']) > 0)
+                    <h4 class="">Files</h4>
                     @foreach ($data['files'] as $file)
-                        <div class="col-lg-2 col-md-3 col-sm-6  mb-3"
+                        <div class="col-lg-3 col-md-4 col-sm-6  mb-3"
                             id="{{ 'container-' . explode('.', $file->slugName)[0] }}">
                             <div class="card product-card-alt border shadow-lg">
                                 <div class="product-thumb">
@@ -165,13 +181,29 @@
                         </div>
                     @endforeach
                 @endif
+                @if (count($data['files']) == 0 && count($data['folders']) == 0)
+                    <div class="container py-0 ">
+                        <div class="row justify-content-center text-center">
+                            <div class="col-lg-12 col-md-7 col-sm-9"><img class="d-block mx-auto mb-5"
+                                    src="{{ get_public_path() }}/storage/sitecontents/empty_list.png" width=""
+                                    height="30%" alt="Empty">
+                            </div>
+                        </div>
+                    </div>
+                @endif
             </div>
         </div>
     </div>
     <div class="floating-button">
         <button class="btn btn-primary rounded-pill btn-icon shadow-lg btn-xl" type="button" data-bs-toggle="modal"
-            data-bs-target="#file-upload">
+            data-bs-target="#fileOrFolder">
             <i class="ci-add"></i>
         </button>
     </div>
+    {{-- <div class="floating-button">
+        <button class="btn btn-primary rounded-pill btn-icon shadow-lg btn-xl" type="button" data-bs-toggle="modal"
+            data-bs-target="#file-upload">
+            <i class="ci-add"></i>
+        </button>
+    </div> --}}
 @endsection
